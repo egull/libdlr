@@ -6,7 +6,7 @@ The analytical result is compared with the DLR representation
 on a dense tau mesh.
 
 The result is also compared to the iterative solution of
-the corresponding Bethe lattice self-consistency \Sigma = G / 4
+the corresponding Bethe lattice self-consistency Sigma = G / 4
 
 Author: Hugo U.R. Strand (2021) """
 

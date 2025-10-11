@@ -165,7 +165,7 @@ def barycentric_chebyshev_interpolation(x, x_j, f_j, w_j):
 
 def fermi_function(E, beta):
     """
-    Evaluate the Fermi distribution function at energy :math:`E` and inverse temperature :math:`\beta`.
+    Evaluate the Fermi distribution function at energy :math:`E` and inverse temperature :math:`\\beta`.
 
     The Fermi distribution function :math:`f_\\beta(E)` has the form
 
@@ -209,7 +209,7 @@ def kernel(tau, omega):
 
     in normalized imaginary time :math:`\\tau \\in [0, 1]` and frequency :math:`\omega`.
 
-    The evaluation is stabilized using separate formulas for :math:`E \lessgtr 0`.
+    The evaluation is stabilized using separate formulas for :math:`E \\lessgtr 0`.
 
     Parameters
     ----------

@@ -1,0 +1,45 @@
+name: pydlr tests
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+  
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        scipy-version: ["1.15", "1.16"]
+
+    steps:
+      - uses: actions/checkout@v5
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          cache: 'pip' # caching pip dependencies          
+      - name: Display Python version
+        run: python -c "import sys; print(sys.version)"
+      - name: Install pip
+        run: python -m pip install --upgrade pip
+      - name: Install pytest and pytest-cov
+        run: pip install pytest pytest-cov
+      - name: Install numpy
+        run: pip install numpy
+      - name: Install scipy
+        run: pip install scipy==${{ matrix.scipy-version }}
+#      - name: Install requirements.txt
+#        run: pip install -r requirements.txt
+      - name: Display numpy version
+        run: python -c "import numpy.version; print('numpy v' + numpy.version.version)"
+      - name: Display scipy version
+        run: python -c "import scipy.version; print('scipy v' + scipy.version.version)"
+      - name: Set PYTHONPATH
+        run: echo "PYTHONPATH=./:$PYTHONPATH" >> $GITHUB_ENV
+      - name: Test importing pydlr module
+        run: python -c "import pydlr"
+      - name: Run pydlr tests with pytest
+        run: pytest ./pydlr/test/test_*.py
