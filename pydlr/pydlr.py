@@ -202,7 +202,7 @@ class dlr(object):
             Green's function i DLR coefficient space with :math:`m \\times m` orbital indices.
         """
 
-        G_xaa = lu_solve((self.dlrit2cf, self.it2cfpiv), G_laa)
+        G_xaa = lu_solve_tensor((self.dlrit2cf, self.it2cfpiv), G_laa)
         return G_xaa
 
 
@@ -374,7 +374,7 @@ class dlr(object):
         """
         xi = self.__xi_arg(xi)
 
-        G_xaa = lu_solve((self.dlrmf2cf, self.mf2cfpiv), G_qaa / beta)
+        G_xaa = lu_solve_tensor((self.dlrmf2cf, self.mf2cfpiv), G_qaa / beta)
 
         if xi == 1: G_xaa /= self.bosonic_corr_x[:, None, None]
 
@@ -1059,3 +1059,24 @@ class solver_wrapper:
                           **self.kwargs_filter(kwargs))
         if self.verbose: print('GMRES N iter:', self.iter)
         return ret
+
+
+def lu_solve_tensor(lu_piv, T):
+
+    """ Wrapper around scipy.linalg.lu_solve that applies the solve to a tensor
+    with the first index matching the lu-factorized matrix. All preceding indices
+    are flattened in the solve and then reshaped to the original dimensions.
+
+    This is a workaround for the batch-handling introduced in SciPy 1.16.
+
+    Thanks to Jonas for reporting, see https://github.com/jasonkaye/libdlr/issues/9
+    """
+
+    if len(T.shape) > 1:
+        n, m = T.shape[0], np.prod(T.shape[1:])
+        X = T.reshape((n, m))
+        A = lu_solve(lu_piv, X).reshape(T.shape)
+    else:
+        A = lu_solve(lu_piv, T)
+
+    return A
