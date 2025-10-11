@@ -528,7 +528,7 @@ class dlr(object):
 
     def convolution(self, A_xaa, B_xaa, beta, xi=None):
 
-        """ DLR convolution with :math:`\mathcal{O}(N^2)` scaling. Author: Hugo U.R. Strand (2021)
+        """ DLR convolution with :math:`\\mathcal{O}(N^2)` scaling. Author: Hugo U.R. Strand (2021)
 
         Imaginary time convolution
         
@@ -588,7 +588,7 @@ class dlr(object):
     
     def convolution_matrix(self, A_xaa, beta, xi=None):
 
-        """ DLR convolution matrix with :math:`\mathcal{O}(N^2)` scaling. Author: Hugo U.R. Strand (2021) 
+        """ DLR convolution matrix with :math:`\\mathcal{O}(N^2)` scaling. Author: Hugo U.R. Strand (2021) 
 
         The imaginary time convolution matrix :math:`M` is given by
         

@@ -103,7 +103,7 @@ def barycentric_chebyshev_interpolation(x, x_j, f_j, w_j):
 
     The Barycentric interpolation formula has the form
 
-    .. math:: f(x) = \\left( \\sum_{j=0}^{N-1} \\frac{f_j w_j}{x - x_j} \\right) \Bigg/ \\left( \\sum_{j=0}^{N-1} \\frac{w_j}{x - x_j} \\right)
+    .. math:: f(x) = \\left( \\sum_{j=0}^{N-1} \\frac{f_j w_j}{x - x_j} \\right) \\Bigg/ \\left( \\sum_{j=0}^{N-1} \\frac{w_j}{x - x_j} \\right)
 
     Parameters
     ----------
@@ -171,7 +171,7 @@ def fermi_function(E, beta):
 
     .. math:: f_\\beta(E) = \\frac{1}{1 + e^{\\beta E}}
 
-    the evaluation is stabilized using separate formulas for :math:`E \lessgtr 0`.
+    the evaluation is stabilized using separate formulas for :math:`E \\lessgtr 0`.
 
     Parameters
     ----------
@@ -207,7 +207,7 @@ def kernel(tau, omega):
     
     .. math:: K(\\tau, \\omega) = \\frac{e^{-\\omega \\tau}}{1 + e^{-\\omega}}
 
-    in normalized imaginary time :math:`\\tau \\in [0, 1]` and frequency :math:`\omega`.
+    in normalized imaginary time :math:`\\tau \\in [0, 1]` and frequency :math:`\\omega`.
 
     The evaluation is stabilized using separate formulas for :math:`E \\lessgtr 0`.
 
@@ -245,13 +245,13 @@ def kernel(tau, omega):
 
 def gridparams(lamb, order=24, lambda_scale=1.):
     """
-    Empirical discretization parameters of :math:`K(\\tau, \\omega)` for given :math:`\Lambda`
+    Empirical discretization parameters of :math:`K(\\tau, \\omega)` for given :math:`\\Lambda`
 
     Parameters
     ----------
 
     lamb : float
-        Cutoff parameter :math:`\Lambda`
+        Cutoff parameter :math:`\\Lambda`
 
     order : int, optional
         Order of the polynomial expansion
@@ -289,13 +289,13 @@ def gridparams(lamb, order=24, lambda_scale=1.):
 
 def kernel_discretization(lamb, error_est=False):
     """
-    Return kernel discretization correct to machine prescision for given :math:`\Lambda`
+    Return kernel discretization correct to machine prescision for given :math:`\\Lambda`
 
     Parameters
     ----------
 
     lamb : float
-        Cut-off parameter :math:`\Lambda`
+        Cut-off parameter :math:`\\Lambda`
 
     error_est : bool, optional
         Perform convergence check of discretization (NB, slow)
