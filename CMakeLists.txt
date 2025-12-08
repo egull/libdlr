@@ -33,7 +33,7 @@ install(TARGETS dlr ARCHIVE)
 
 # Test programs
 
-FILE(GLOB TestPrograms RELATIVE ${CMAKE_SOURCE_DIR} ./test/*.f90)
+FILE(GLOB TestPrograms RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ./test/*.f90)
 foreach(f ${TestPrograms})
   get_filename_component(name ${f} NAME)
   add_executable(${name} ${f})
