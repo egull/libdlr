@@ -36,7 +36,7 @@ void c_dlr_cf2mf_init(int *r, double *dlrrf ,int *dlrmf, int *xi, double _Comple
 
 void c_dlr_cf2mf(int *r, int *n, double _Complex *cf2mf, double *gc, double _Complex *gn);
 
-void c_dlr_mf2cf_init(int *nmax, int *r, double *dlrrf, int *dlrmf, int *xi, double _Complex *mf2cf, int *mf2cfp);
+void c_dlr_mf2cf_init(int *r, double *dlrrf, int *dlrmf, int *xi, double _Complex *mf2cf, int *mf2cfp);
 
 void c_dlr_mf2cf(int *r, int *n, double _Complex *mf2cf, int *mf2cfp, double _Complex *g, double *gc);
 

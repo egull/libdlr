@@ -130,7 +130,7 @@
       ! Get DLR Matsubara frequency nodes and values -> coefficients matrix
       allocate(dlrmf(r),mf2cf(r,r),mf2cfp(r))
       call dlr_mf(nmax,r,dlrrf,-1,dlrmf)
-      call dlr_mf2cf_init(nmax,r,dlrrf,dlrmf,-1,mf2cf,mf2cfp)
+      call dlr_mf2cf_init(r,dlrrf,dlrmf,-1,mf2cf,mf2cfp)
 
       ! Evaluate DLR expansion at Matsubara frequency nodes
       allocate(gmf(r))

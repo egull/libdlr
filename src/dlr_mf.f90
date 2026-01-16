@@ -261,10 +261,10 @@
       !!                       stored in LAPACK LU factored format; LU
       !!                       pivots
 
-      subroutine dlr_mf2cf_init(nmax,r,dlrrf,dlrmf,xi,mf2cf,mf2cfp)
+      subroutine dlr_mf2cf_init(r,dlrrf,dlrmf,xi,mf2cf,mf2cfp)
 
       implicit none
-      integer nmax,r,xi,dlrmf(r),mf2cfp(r)
+      integer r,xi,dlrmf(r),mf2cfp(r)
       real *8 dlrrf(r)
       complex *16 mf2cf(r,r)
 

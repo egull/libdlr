@@ -106,7 +106,7 @@
 
       allocate(mf2cf(r,r),mf2cfp(r),cf2mf(r,r))
 
-      call dlr_mf2cf_init(nmax,r,dlrrf,dlrmf,-1,mf2cf,mf2cfp)
+      call dlr_mf2cf_init(r,dlrrf,dlrmf,-1,mf2cf,mf2cfp)
 
 
       ! Get DLR coefficients -> Matsubara frequency values matrix

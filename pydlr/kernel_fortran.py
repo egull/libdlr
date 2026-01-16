@@ -36,7 +36,7 @@ ffi.cdef("void c_dlr_cf2it_init(int *rank, double *dlrrf, double *dlrit, double 
 ffi.cdef("void c_dlr_it2cf_init(int *rank, double *dlrrf, double *dlrit, double *dlrit2cf, int *it2cfpiv);")
 ffi.cdef("void c_dlr_mf(int *nmax, int *rank, double *dlrrf, int *xi, int *dlrmf);")
 ffi.cdef("void c_dlr_cf2mf_init(int *rank, double *dlrrf,int *dlrmf, int *xi, double _Complex *cf2mf);")
-ffi.cdef("void c_dlr_mf2cf_init(int *nmax, int *rank, double *dlrrf,int *dlrmf, int *xi, double _Complex *dlrmf2cf, int *mf2cfpiv);")
+ffi.cdef("void c_dlr_mf2cf_init(int *rank, double *dlrrf,int *dlrmf, int *xi, double _Complex *dlrmf2cf, int *mf2cfpiv);")
 
 lib = ffi.dlopen(libname)
 
@@ -186,7 +186,7 @@ class KernelInterpolativeDecopositionFortran:
         mf2cfpiv = ffi.new(f'int [{self.rank}]')
         dlrmf2cf = ffi.new(f'double _Complex [{self.rank**2}]')
 
-        lib.c_dlr_mf2cf_init(nmax,rank,dlrrf,dlrmf,xi,dlrmf2cf,mf2cfpiv)
+        lib.c_dlr_mf2cf_init(rank,dlrrf,dlrmf,xi,dlrmf2cf,mf2cfpiv)
 
         self.mf2cfpiv = np.frombuffer(ffi.buffer(mf2cfpiv), dtype=np.int32) - 1
         self.dlrmf2cf = np.frombuffer(ffi.buffer(dlrmf2cf), dtype=complex).reshape((self.rank, self.rank)).T

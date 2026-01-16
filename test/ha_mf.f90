@@ -81,7 +81,7 @@
 
       allocate(mf2cf(r,r),mf2cfp(r))
 
-      call dlr_mf2cf_init(nmax,r,dlrrf,dlrmf,-1,mf2cf,mf2cfp)
+      call dlr_mf2cf_init(r,dlrrf,dlrmf,-1,mf2cf,mf2cfp)
 
 
       ! Sample G at Matsubara frequency nodes

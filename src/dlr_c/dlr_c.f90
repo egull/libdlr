@@ -133,12 +133,12 @@ contains
     call dlr_cf2mf(r,n,cf2mf,gc,gn)
   end subroutine c_dlr_cf2mf
 
-  subroutine c_dlr_mf2cf_init(nmax,r,dlrrf,dlrmf,xi,mf2cf,mf2cfp) bind(C)
-    integer(c_int), intent(in) :: nmax,r,dlrmf(r),xi
+  subroutine c_dlr_mf2cf_init(r,dlrrf,dlrmf,xi,mf2cf,mf2cfp) bind(C)
+    integer(c_int), intent(in) :: r,dlrmf(r),xi
     integer(c_int), intent(out) :: mf2cfp(r)
     real(c_double), intent(in) :: dlrrf(r)
     complex(c_double_complex), intent(out) :: mf2cf(r,r)
-    call dlr_mf2cf_init(nmax,r,dlrrf,dlrmf,xi,mf2cf,mf2cfp)
+    call dlr_mf2cf_init(r,dlrrf,dlrmf,xi,mf2cf,mf2cfp)
   end subroutine c_dlr_mf2cf_init
 
   subroutine c_dlr_mf2cf(r,n,mf2cf,mf2cfp,g,gc) bind(C)
