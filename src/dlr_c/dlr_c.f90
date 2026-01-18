@@ -141,11 +141,12 @@ contains
     call dlr_mf2cf_init(r,dlrrf,dlrmf,xi,mf2cf,mf2cfp)
   end subroutine c_dlr_mf2cf_init
 
-  subroutine c_dlr_mf2cf(r,n,mf2cf,mf2cfp,g,gc) bind(C)
+  subroutine c_dlr_mf2cf(r,n,mf2cf,mf2cfp,beta,g,gc) bind(C)
     integer(c_int), intent(in) :: r,n,mf2cfp(r)
     complex(c_double_complex), intent(in) :: mf2cf(r,r),g(r,n,n)
+    real(c_double), intent(in) :: beta
     real(c_double), intent(out) :: gc(r,n,n)
-    call dlr_mf2cf(r,n,mf2cf,mf2cfp,g,gc)
+    call dlr_mf2cf(r,n,mf2cf,mf2cfp,beta,g,gc)
   end subroutine c_dlr_mf2cf
 
   subroutine c_dlr_mf_eval(r,n,dlrrf,xi,gc,nmf,beta,gn) bind(C)
