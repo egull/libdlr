@@ -201,6 +201,21 @@ contains
     call dlr_fstconv(r,n,cf2it,it2cf,it2cfp,fstconv,f,g,h)
   end subroutine c_dlr_fstconv
 
+  subroutine c_dlr_fstconv_tconv_init(beta,r,dlrrf,dlrit,cf2it,tconv) bind(C)
+    integer(c_int), intent(in) :: r
+    real(c_double), intent(in) :: beta,dlrrf(r),dlrit(r),cf2it(r,r)
+    real(c_double), intent(out) :: tconv(r,2*r)
+    call dlr_fstconv_tconv_init(beta,r,dlrrf,dlrit,cf2it,tconv)
+  end subroutine c_dlr_fstconv_tconv_init
+
+  subroutine c_dlr_fstconv_tconv(r,n,cf2it,it2cf,it2cfp,tconv,f,g,h) bind(C)
+    integer(c_int), intent(in) :: r,n,it2cfp(r)
+    real(c_double), intent(in) :: cf2it(r,r),it2cf(r,r),tconv(r,2*r)
+    real(c_double), intent(in) :: f(r,n,n),g(r,n,n)
+    real(c_double), intent(out) :: h(r,n,n)
+    call dlr_fstconv_tconv(r,n,cf2it,it2cf,it2cfp,tconv,f,g,h)
+  end subroutine c_dlr_fstconv_tconv
+
   subroutine c_dlr_ipmat(beta,r,dlrit,dlrrf,it2cf,it2cfp,ipmat) bind(C)
     integer(c_int), intent(in) :: r,it2cfp(r)
     real(c_double), intent(in) :: beta,dlrit(r),dlrrf(r),it2cf(r,r)

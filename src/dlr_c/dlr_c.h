@@ -54,6 +54,10 @@ void c_dlr_fstconv_init(double *beta, int *r, double *dlrrf, double *dlrit, doub
 
 void c_dlr_fstconv(int *r, int *n, double *cf2it, double *it2cf, int *it2cfp, double *fstconv, double *f, double *g, double *h);
 
+void c_dlr_fstconv_tconv_init(double *beta, int *r, double *dlrrf, double *dlrit, double *cf2it, double *tconv);
+
+void c_dlr_fstconv_tconv(int *r, int *n, double *cf2it, double *it2cf, int *it2cfp, double *tconv, double *f, double *g, double *h);
+
 void c_dlr_ipmat(double *beta, int *r, double *dlrit, double *dlrrf, double *it2cf, int *it2cfp, double *ipmat);
 
 void c_dyson_it(int *r, int *n, double *it2cf, int *it2cfp, double *phi, double *g0, double *g0mat, double *sig, double *g);
