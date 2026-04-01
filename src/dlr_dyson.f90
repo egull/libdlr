@@ -96,7 +96,6 @@
 
 
 
-
       !> Solve the Dyson equation in Matsubara frequency.
       !!
       !! Given a fixed self-energy, this routine solves the Dyson
@@ -123,3 +122,98 @@
       gmf = g0/(1.0d0-g0*sigmf)
 
       end subroutine dyson_mf
+
+
+
+
+      !> Solve the time-ordered Dyson equation in imaginary time.
+      !!
+      !! Given a fixed self-energy, this routine forms the DLR
+      !! discretization of the linear time-ordered Dyson equation
+      !!
+      !!   G(tau) = G0(tau)
+      !!          + int_0^tau int_0^{tau'} G0(tau-tau') Sigma(tau'-s) G(s) ds dtau'
+      !!
+      !! and solves it using Gaussian elimination.
+      !!
+      !! This is the time-ordered analogue of dyson_it. The only
+      !! difference is that dlr_convmat_tconv is used instead of
+      !! dlr_convmat to build the self-energy convolution matrix, and the
+      !! argument list takes cf2it and tconv instead of phi.
+      !!
+      !! Caller is responsible for pre-computing g0mat via
+      !! dlr_convmat_tconv before calling this routine.
+      !!
+      !! The corresponding cppdlr routine is dyson_it::solve with
+      !! time_order=TIME_ORDERED (dlr_dyson.hpp:106).
+      !!
+      !! @param[in]   r       number of DLR basis functions
+      !! @param[in]   n       number of orbital indices
+      !! @param[in]   cf2it   DLR coefficients -> imaginary time grid
+      !!                        values transform matrix
+      !! @param[in]   it2cf   imaginary time grid values -> DLR
+      !!                        coefficients transform matrix, stored in
+      !!                        LAPACK LU factored format; LU factors
+      !! @param[in]   it2cfp  imaginary time grid values -> DLR
+      !!                        coefficients transform matrix, stored in
+      !!                        LAPACK LU factored format; LU pivots
+      !! @param[in]   tconv   arrays from dlr_fstconv_tconv_init
+      !! @param[in]   g0      values of the free Green's function G0
+      !!                        on the DLR imaginary time grid
+      !! @param[in]   g0mat   matrix of time-ordered convolution by G0
+      !!                        (produced by dlr_convmat_tconv)
+      !! @param[in]   sig     values of the self-energy on the DLR
+      !!                        imaginary time grid
+      !! @param[out]  g       solution of the time-ordered Dyson equation
+      !!                        on the DLR imaginary time grid
+
+      subroutine dyson_it_tconv(r,n,cf2it,it2cf,it2cfp,tconv,g0,g0mat,sig,g)
+
+      implicit none
+      integer r,n,it2cfp(r)
+      real *8 cf2it(r,r),it2cf(r,r),tconv(r,2*r)
+      real *8 g0(r,n,n),g0mat(r*n,r*n),sig(r,n,n),g(r,n,n)
+
+      integer j,info
+      integer, allocatable :: ipiv(:)
+      real *8 one
+      real *8, allocatable :: sigmat(:,:),sysmat(:,:)
+
+      one = 1.0d0
+
+      allocate(sigmat(r*n,r*n),sysmat(r*n,r*n),ipiv(r*n))
+
+
+      ! Get matrix of time-ordered convolution by self-energy.
+      ! Replaces dlr_convmat(phi,...) from dyson_it.
+      ! (cppdlr: convmat(beta,Fermion,sigc,time_order), dlr_dyson.hpp:114)
+
+      call dlr_convmat_tconv(r,n,cf2it,it2cf,it2cfp,tconv,sig,sigmat)
+
+
+      ! Form system matrix I - G0mat * Sigmat.
+      ! Identical to dyson_it (dlr_dyson.f90:79-84).
+      ! (cppdlr: eye(r*norb) - g0mat * convmat(...), dlr_dyson.hpp:114)
+
+      call dgemm('N','N',r*n,r*n,r*n,-one,g0mat,r*n,sigmat,r*n,0*one, &
+        sysmat,r*n)
+
+      do j=1,r*n
+        sysmat(j,j) = one + sysmat(j,j)
+      enddo
+
+
+      ! LU factorize system matrix.
+      ! (cppdlr: lapack::getrf(sysmat, ipiv), dlr_dyson.hpp:118)
+
+      call dgetrf(r*n,r*n,sysmat,r*n,ipiv,info)
+
+
+      ! Back-solve: overwrite g0 with solution g.
+      ! (cppdlr: lapack::getrs(sysmat, g_rs, ipiv), dlr_dyson.hpp:124)
+
+      g = g0
+
+      call dgetrs('N',r*n,n,sysmat,r*n,ipiv,g,r*n,info)
+
+      end subroutine dyson_it_tconv
