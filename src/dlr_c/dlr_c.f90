@@ -216,6 +216,22 @@ contains
     call dlr_fstconv_tconv(r,n,cf2it,it2cf,it2cfp,tconv,f,g,h)
   end subroutine c_dlr_fstconv_tconv
 
+  subroutine c_dlr_convmat_tconv(r,n,cf2it,it2cf,it2cfp,tconv,g,gmat) bind(C)
+    integer(c_int), intent(in) :: r,n,it2cfp(r)
+    real(c_double), intent(in) :: cf2it(r,r),it2cf(r,r),tconv(r,2*r)
+    real(c_double), intent(in) :: g(r,n,n)
+    real(c_double), intent(out) :: gmat(r*n,r*n)
+    call dlr_convmat_tconv(r,n,cf2it,it2cf,it2cfp,tconv,g,gmat)
+  end subroutine c_dlr_convmat_tconv
+
+  subroutine c_dyson_it_tconv(r,n,cf2it,it2cf,it2cfp,tconv,g0,g0mat,sig,g) bind(C)
+    integer(c_int), intent(in) :: r,n,it2cfp(r)
+    real(c_double), intent(in) :: cf2it(r,r),it2cf(r,r),tconv(r,2*r)
+    real(c_double), intent(in) :: g0(r,n,n),g0mat(r*n,r*n),sig(r,n,n)
+    real(c_double), intent(out) :: g(r,n,n)
+    call dyson_it_tconv(r,n,cf2it,it2cf,it2cfp,tconv,g0,g0mat,sig,g)
+  end subroutine c_dyson_it_tconv
+
   subroutine c_dlr_ipmat(beta,r,dlrit,dlrrf,it2cf,it2cfp,ipmat) bind(C)
     integer(c_int), intent(in) :: r,it2cfp(r)
     real(c_double), intent(in) :: beta,dlrit(r),dlrrf(r),it2cf(r,r)
